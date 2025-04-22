@@ -1,0 +1,170 @@
+
+
+plugins {
+	// Apply the java-library plugin to add support for Java Library
+	id 'java-library'
+	id 'io.qameta.allure' version '2.12.0'
+	id 'distribution'
+}
+apply plugin: 'io.qameta.allure'
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'
+
+repositories {
+	mavenCentral()
+}
+ext {
+	junitJupiterVersion = '5.10.0'
+	junitPlatformSuiteVersion = '1.10.0'
+	cucumberVersion = '7.20.1'
+	seleniumJavaVersion = '4.28.0'
+	log4JVersion = '2.20.0'
+	Allureversion = '2.32.0'
+	AllureCucumberVersion = '2.29.0'
+
+}
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+jar {
+	archiveBaseName = 'BH-junit5-cucumber7-selenium'
+	archiveVersion = '1.0.0'
+
+}
+
+dependencies {
+	implementation "org.apache.logging.log4j:log4j-api:${log4JVersion}"
+	implementation "org.apache.logging.log4j:log4j-core:${log4JVersion}"
+	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: "${seleniumJavaVersion}"
+	implementation "org.seleniumhq.selenium:selenium-firefox-driver:${seleniumJavaVersion}"
+	implementation "org.seleniumhq.selenium:selenium-chrome-driver:${seleniumJavaVersion}"
+	implementation "org.seleniumhq.selenium:selenium-edge-driver:${seleniumJavaVersion}"
+	implementation "org.seleniumhq.selenium:selenium-api:${seleniumJavaVersion}"
+	implementation "org.seleniumhq.selenium:selenium-remote-driver:${seleniumJavaVersion}"
+	implementation "org.seleniumhq.selenium:selenium-chromium-driver:${seleniumJavaVersion}"
+	implementation "io.cucumber:cucumber-java:${cucumberVersion}"
+	implementation group: 'io.cucumber', name: 'cucumber-core', version: "${cucumberVersion}"
+	implementation group: 'io.cucumber', name: 'cucumber-gherkin', version: "${cucumberVersion}"
+	implementation group: 'com.assertthat', name: 'selenium-shutterbug', version: '1.6'
+	implementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
+	implementation "io.cucumber:cucumber-picocontainer:${cucumberVersion}"
+	implementation group: 'io.cucumber', name: 'cucumber-bom', version: "${cucumberVersion}", ext: 'pom'
+	implementation group: 'org.junit.platform', name: 'junit-platform-commons', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-console', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-console-standalone', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-engine', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-jfr', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-reporting', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-runner', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-suite', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-suite-api', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-suite-commons', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-suite-engine', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.platform', name: 'junit-platform-testkit', version: "${junitPlatformSuiteVersion}"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: "${junitJupiterVersion}"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: "${junitJupiterVersion}"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: "${junitJupiterVersion}"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: "${junitJupiterVersion}"
+	implementation group: 'org.junit.jupiter', name: 'junit-jupiter-migrationsupport', version: "${junitJupiterVersion}"
+	implementation group: 'org.junit.vintage', name: 'junit-vintage-engine', version: "${junitJupiterVersion}"
+	implementation "io.qameta.allure:allure-junit5:${AllureCucumberVersion}"
+	implementation "io.qameta.allure:allure-cucumber7-jvm:${AllureCucumberVersion}"
+	implementation "io.qameta.allure:allure-commandline:${Allureversion}"
+	compileOnly("org.projectlombok:lombok:1.18.38")
+}
+
+allure {
+	version = '2.32.0'  // Latest Allure Version
+}
+
+test {
+	systemProperty "file.encoding", "UTF-8"
+	systemProperties(project.gradle.startParameter.systemPropertiesArgs)
+	systemProperty "cucumber.execution.parallel.enabled",findProperty("test.parallel")
+	systemProperty "browser",findProperty("browser")
+	systemProperty "env",findProperty("env")
+	systemProperty "headless",findProperty("headless")
+	systemProperty "cucumber.junit-platform.naming-strategy", "long"
+	systemProperty "log4j2.debug","false"
+	useJUnitPlatform(){
+
+	}
+	testLogging {
+		showStandardStreams = true
+	}
+
+	ignoreFailures = true
+
+}
+
+java {
+	consistentResolution {
+		useCompileClasspathVersions()
+	}
+}
+
+// OPTIONAL: Lock all dependencies since we are using dynamic version ranges
+// see https://docs.gradle.org/current/userguide/dependency_locking.html
+dependencyLocking {
+	lockAllConfigurations()
+}
+
+
+compileTestJava {
+	sourceCompatibility = 21
+	targetCompatibility = 21
+	options.compilerArgs += '-parameters'
+}
+
+task copyConfigs(type:Copy) {
+	description 'Copies the rconfig files to the allure-results directory.'
+
+	from ("$projectDir" + '/allure-results/'){
+		include '**/*.*'
+	}
+	into 'build/allure-results/'
+	eachFile { println it.name }
+
+}
+
+task deleteOldJsonFiles(type: Delete) {
+	delete fileTree("$projectDir" + '/allure-results/') {
+		include '**/*.*'
+	}
+}
+
+
+
+task generateReport(type:Exec) {
+
+	dependsOn 'copyConfigs'
+	dependsOn 'deleteOldJsonFiles'
+	group = 'Reporting'
+	description = 'Generates the HTML test report for this project.'
+
+	def osName = System.getProperty("os.name")
+	logger.quiet("\u001B[33m" + "Project is running on "+"${osName}" + " operating system")
+
+	if(osName.contains("Mac")){
+		commandLine 'src/test/resources/reporting/allureCommandline/bin/allure','generate','-c','./build/allure-results/test'
+	}
+	if(osName.contains("Windows")){
+		commandLine 'cmd','/c',"$projectDir"+'/src/test/resources/reporting/allureCommandline/bin/allure.bat','generate','-c',"$projectDir"+'/build/allure-results'
+	}
+	if(osName.contains("Linux")){
+
+		commandLine 'src/test/resources/reporting/allureCommandline/bin/allure','generate','-c','./build/allure-results/test'
+	}
+
+}
+
+task killChrome {
+	doLast {
+		exec{
+			commandLine "cmd", '/c', "$projectDir" + '/src/test/resources/Configuration/Kill_Chrome_Drive_Instances.bat'
+		}}
+}
+tasks.named("generateReport") { finalizedBy("killChrome") }
