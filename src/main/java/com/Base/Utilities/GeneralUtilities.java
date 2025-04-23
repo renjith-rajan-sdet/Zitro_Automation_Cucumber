@@ -564,7 +564,7 @@ public class GeneralUtilities {
      * Return Value : NA
      ********************************************************************************/
 
-    public void Select_dropdown_Value(WebElement wElement, String valueToSet, WebDriver driver, String ElementInfo) {
+    public void Select_dropdown_Value(WebElement wElement, String valueToSet,String ElementInfo) {
         try {
             Select selectElement = new Select(wElement);
             selectElement.selectByValue(valueToSet);
@@ -583,11 +583,29 @@ public class GeneralUtilities {
         }
     }
 
-    public void Select_dropdown_Text(WebElement wElement, String valueToSet, WebDriver driver, String ElementInfo) {
+    public void Select_dropdown_Text(WebElement wElement, String valueToSet,String ElementInfo) {
         try {
             Select selectElement = new Select(wElement);
             selectElement.selectByVisibleText(valueToSet);
             Browser.getLogger().info("Selected : " + valueToSet + " to drop down: " + ElementInfo);
+            waitForSeconds(2);
+        } catch (NoSuchElementException e) {
+            Browser.getLogger().error("The element doesn't exist : " + ElementInfo);
+            fail("The element doesn't exist : " + ElementInfo);
+
+        } catch (WebDriverException e) {
+            Browser.getLogger().info("Drop down option not displayed(WebDriverException) :" + ElementInfo);
+            fail("The Drop down doesn't exist  : " + ElementInfo);
+        } catch (Exception e) {
+            Browser.getLogger().info("Generic Exception");
+            fail("Generic Exception");
+        }
+    }
+
+    public void Select_get_selectionText(WebElement wElement, String ElementInfo) {
+        try {
+            Select selectElement = new Select(wElement);
+            selectElement.getFirstSelectedOption();
             waitForSeconds(2);
         } catch (NoSuchElementException e) {
             Browser.getLogger().error("The element doesn't exist : " + ElementInfo);

@@ -40,7 +40,7 @@ public class LoginScreen {
     WebElement Login_Button;
 
 
-    @Step("login to Game twist using vaid credentials")
+    @Step("login to Game twist using valid credentials")
     public void loginToGameTwist()
     {
         generalUtilities.clickElement(driver,pages.getHomePage().Login_Button,
@@ -55,6 +55,8 @@ public class LoginScreen {
                 runtime.configurations.globalGetData("userGeneralPassword")
                 ,driver,"Login -> password");
         generalUtilities.clickElement(driver,Login_Button,"login button");
+        scn.log("User credentials : " + runtime.configurations.envGetData("GameTwist_Nickname")
+        + " / " + runtime.configurations.globalGetData("userGeneralPassword"));
         
     }
 }

@@ -74,9 +74,9 @@ public class Registration_Page {
                 nickname,driver,"Nick Name");
         generalUtilities.setText(Registration_Password,
                 runtime.configurations.globalGetData("userGeneralPassword"),driver,"Password");
-        generalUtilities.Select_dropdown_Value(Registration_DOB_Day,"1",driver,"DOB Day");
-        generalUtilities.Select_dropdown_Text(Registration_DOB_month,"April",driver,"DOB Month");
-        generalUtilities.Select_dropdown_Value(Registration_DOB_year,"1988",driver,"DOB Year");
+        generalUtilities.Select_dropdown_Value(Registration_DOB_Day,"1","DOB Day");
+        generalUtilities.Select_dropdown_Text(Registration_DOB_month,"April","DOB Month");
+        generalUtilities.Select_dropdown_Value(Registration_DOB_year,"1988","DOB Year");
 
 //        generalUtilities.actionsClick(Registration_Captcha_ImNotARobot,driver,"Captcha");
 

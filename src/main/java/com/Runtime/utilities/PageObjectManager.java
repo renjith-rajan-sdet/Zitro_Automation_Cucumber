@@ -43,4 +43,22 @@ public class PageObjectManager {
 		if(loggedInScreen==null) {loggedInScreen = new LogedIn_homeScreen(runtime);return loggedInScreen;}return loggedInScreen;
 	}
 
+	PersonalSettings personalSettings;
+	public PersonalSettings getpersonalSettings()
+	{
+		if(personalSettings==null) {personalSettings = new PersonalSettings(runtime);return personalSettings;}return personalSettings;
+	}
+
+	ChangeNewsLetter changeNewsLetter;
+	public ChangeNewsLetter getchangeNewsLetter()
+	{
+		if(changeNewsLetter==null) {changeNewsLetter = new ChangeNewsLetter(runtime);return changeNewsLetter;}return changeNewsLetter;
+	}
+
+	ChangeSecurityQuestion changeSecurityQuestion;
+	public ChangeSecurityQuestion getChangeSecurityQuestion()
+	{
+		if(changeSecurityQuestion==null) {changeSecurityQuestion = new ChangeSecurityQuestion(runtime);return changeSecurityQuestion;}return changeSecurityQuestion;
+	}
+
 }
