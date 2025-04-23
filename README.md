@@ -25,7 +25,7 @@
 1) Go to the project folder and start cmd mode.
 2) Type the run command and press ENTER : gradlew.bat clean test -Dcucumber.filter.tags=@SanityTests -PBrowser=Chrome -PEnv=QA generateReport -Ptest.parallel=true
 
-   (The above command is going to run the 2 tests automated).
+   (The above command is going to run the 3 tests automated).
 4) Once done, the allure reports will be generated in the folder : allure-report. Open the file : allure-report/index.html in firefox to view the allure report.
 5) Cucumber reports will be generated in the path : target/cucumber-reports and can be opened by opening the file (use any browser) : target/cucumber-reports/Html.html
 
