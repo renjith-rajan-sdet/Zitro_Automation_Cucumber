@@ -15,10 +15,11 @@
 4) Search the preference name : 'security.fileuri.strict_origin_policy' and turn the setting to 'False'
 
 **Snaps**
+<img width="947" alt="image" src="https://github.com/user-attachments/assets/0f39e29c-95a3-4c61-8d16-5ea19f5169a5" />
+<img width="959" alt="image" src="https://github.com/user-attachments/assets/7d61f56a-f117-409a-b1c6-f5a157a50cce" />
 
-<img width="815" alt="image" src="https://github.com/user-attachments/assets/45c9f961-91ce-4bd0-896e-0f71c286c095" />
-<img width="748" alt="image" src="https://github.com/user-attachments/assets/19b26d07-5e97-47a9-8d93-5545f3291283" />
-<img width="953" alt="image" src="https://github.com/user-attachments/assets/97fc8cb1-af16-4081-bf8b-bfbf5dafbac7" />
+
+
 
 **Running test cases**
 
